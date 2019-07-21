@@ -978,75 +978,19 @@ print(xboost_classifier.feature_importances_) #use inbuilt class feature_importa
 
 
 
-X = submission.loc[:, (data.columns != 'is_goal') & (data.columns != 'shot_id_number') ].values
-y = submission[['is_goal']].values
-
-# ''' Feature Scaling '''
-from sklearn.preprocessing import StandardScaler
-sc_X = StandardScaler()
-X =sc_X.fit_transform(X)
-
-probs_logistic = logistic.predict_proba(X)
-solution_logistic = pd.DataFrame(columns=['shot_id_number', 'is_goal'])
-
-solution_logistic['shot_id_number'] = submission['shot_id_number']
-solution_logistic['is_goal'] = probs_logistic
-
-probs_xgboost = xboost_classifier.predict_proba(X)
-solution_xgboost = pd.DataFrame(columns=['shot_id_number', 'is_goal'])
-
-solution_xgboost['shot_id_number'] = submission['shot_id_number']
-solution_xgboost['is_goal'] = probs_xgboost
-
-
-
-# solution.to_csv("bhavi_chawla_280998_code_5.csv",index=False)
-# solution_logistic.to_csv("logistic.csv",index=False)
-solution_xgboost.to_csv("bhavi_chawla_280998_code_5.csv",index=False)
-
-
-# In[ ]:
-
-
-# cols = data.loc[:, (data.columns != 'is_goal') & (data.columns != 'shot_id_number') ].columns
-# X = data.loc[:, (data.columns != 'is_goal') & (data.columns != 'shot_id_number') ].values
-# y = data[['is_goal']].values
-
-# ratio = (len(y) - y.sum()) / (y.sum())
-
-# from sklearn.utils import shuffle
-# X, y = shuffle(X, y, random_state=0)
-
-# ''' Feature Scaling '''
-# from sklearn.preprocessing import StandardScaler
-# sc_X = StandardScaler()
-# X =sc_X.fit_transform(X)
-# # X_test =sc_X.transform(X_test)
-
-# from xgboost import XGBClassifier
-# # xboost_classifier = XGBClassifier(learning_rate =0.1,
-# #                                  n_estimators=149,
-# #                                  max_depth=4,
-# #                                  min_child_weight=5,
-# #                                  gamma=0.3,
-# #                                  reg_alpha=0.1,
-# #                                  objective= 'binary:logistic',
-# #                                  scale_pos_weight=1,
-# #                                  seed=27)
-
-
-# xboost_classifier = XGBClassifier(random_state=0)
-# xboost_classifier.fit(X, y)
-
-# ####
-
-
 # X = submission.loc[:, (data.columns != 'is_goal') & (data.columns != 'shot_id_number') ].values
 # y = submission[['is_goal']].values
 
+# # ''' Feature Scaling '''
 # from sklearn.preprocessing import StandardScaler
 # sc_X = StandardScaler()
 # X =sc_X.fit_transform(X)
+
+# probs_logistic = logistic.predict_proba(X)
+# solution_logistic = pd.DataFrame(columns=['shot_id_number', 'is_goal'])
+
+# solution_logistic['shot_id_number'] = submission['shot_id_number']
+# solution_logistic['is_goal'] = probs_logistic
 
 # probs_xgboost = xboost_classifier.predict_proba(X)
 # solution_xgboost = pd.DataFrame(columns=['shot_id_number', 'is_goal'])
@@ -1054,7 +998,62 @@ solution_xgboost.to_csv("bhavi_chawla_280998_code_5.csv",index=False)
 # solution_xgboost['shot_id_number'] = submission['shot_id_number']
 # solution_xgboost['is_goal'] = probs_xgboost
 
-# solution_xgboost.to_csv("bhavi_chawla_280998_code_6.csv",index=False)
+
+
+# # solution.to_csv("bhavi_chawla_280998_code_5.csv",index=False)
+# # solution_logistic.to_csv("logistic.csv",index=False)
+
+
+# In[ ]:
+
+
+cols = data.loc[:, (data.columns != 'is_goal') & (data.columns != 'shot_id_number') ].columns
+X = data.loc[:, (data.columns != 'is_goal') & (data.columns != 'shot_id_number') ].values
+y = data[['is_goal']].values
+
+ratio = (len(y) - y.sum()) / (y.sum())
+
+from sklearn.utils import shuffle
+X, y = shuffle(X, y, random_state=0)
+
+''' Feature Scaling '''
+from sklearn.preprocessing import StandardScaler
+sc_X = StandardScaler()
+X =sc_X.fit_transform(X)
+# X_test =sc_X.transform(X_test)
+
+from xgboost import XGBClassifier
+# xboost_classifier = XGBClassifier(learning_rate =0.1,
+#                                  n_estimators=149,
+#                                  max_depth=4,
+#                                  min_child_weight=5,
+#                                  gamma=0.3,
+#                                  reg_alpha=0.1,
+#                                  objective= 'binary:logistic',
+#                                  scale_pos_weight=1,
+#                                  seed=27)
+
+
+xboost_classifier = XGBClassifier(random_state=0)
+xboost_classifier.fit(X, y)
+
+####
+
+
+X = submission.loc[:, (data.columns != 'is_goal') & (data.columns != 'shot_id_number') ].values
+y = submission[['is_goal']].values
+
+from sklearn.preprocessing import StandardScaler
+sc_X = StandardScaler()
+X =sc_X.fit_transform(X)
+
+probs_xgboost = xboost_classifier.predict_proba(X)
+solution_xgboost = pd.DataFrame(columns=['shot_id_number', 'is_goal'])
+
+solution_xgboost['shot_id_number'] = submission['shot_id_number']
+solution_xgboost['is_goal'] = probs_xgboost
+
+solution_xgboost.to_csv("bhavi_chawla_280998_code_6.csv",index=False)
 
 
 # In[ ]:
@@ -1064,10 +1063,10 @@ solution_xgboost.to_csv("bhavi_chawla_280998_code_5.csv",index=False)
 # 0.5498407242897244
 
 
-# In[171]:
+# In[170]:
 
 
-get_ipython().system('jupyter nbconvert --to script main.ipynb')
+# get_ipython().system('jupyter nbconvert --to script main.ipynb')
 
 
 # <h1>Parameter Tuning XGBoost </h1>
@@ -1509,7 +1508,7 @@ AUC Score (Train): 0.710403
  min_child_weight=6,
  gamma=0.3,
  
- [235]	train-auc:0.733589+0.00160811	test-auc:0.650496+0.00236112
+ [235]  train-auc:0.733589+0.00160811   test-auc:0.650496+0.00236112
 
 Model Report
 Accuracy : 0.6552
